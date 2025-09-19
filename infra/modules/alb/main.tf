@@ -1,9 +1,8 @@
-# Load Balancer interno
 resource "aws_lb" "this" {
   name               = "${var.project}-internal-alb"
   internal           = true
   load_balancer_type = "application"
-  security_groups    = [var.sg_id]   # SG que permita tráfico desde API Gateway
+  security_groups    = [var.sg_id]   
   subnets            = var.private_subnets
 
   tags = {
@@ -20,7 +19,7 @@ resource "aws_lb_listener" "http" {
     type = "fixed-response"
     fixed_response {
       content_type = "text/plain"
-      message_body = "No matching rule found"
+      message_body = "Resource not found."
       status_code  = "404"
     }
   }
@@ -31,12 +30,13 @@ resource "aws_lb_listener" "http" {
 # -------------------------
 resource "aws_lb_target_group" "auth" {
   name        = "${var.project}-auth-tg"
-  port        = 80
+  port        = 8080                  
   protocol    = "HTTP"
   target_type = "ip"
   vpc_id      = var.vpc_id
+
   health_check {
-    path                = "/api/v1/auth/health"
+    path                = "/actuator/health"
     healthy_threshold   = 2
     unhealthy_threshold = 2
     interval            = 30
@@ -47,29 +47,36 @@ resource "aws_lb_target_group" "auth" {
 
 resource "aws_lb_target_group" "loan" {
   name        = "${var.project}-loan-tg"
-  port        = 80
+  port        = 8081                  
   protocol    = "HTTP"
   target_type = "ip"
   vpc_id      = var.vpc_id
+
   health_check {
-    path              = "/api/v1/loan-applications/health"
-    healthy_threshold = 2
-    matcher           = "200-399"
+    path                = "/actuator/health"
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    interval            = 30
+    timeout             = 5
   }
 }
 
 resource "aws_lb_target_group" "report" {
   name        = "${var.project}-report-tg"
-  port        = 80
+  port        = 8082                  
   protocol    = "HTTP"
   target_type = "ip"
   vpc_id      = var.vpc_id
+
   health_check {
-    path              = "/api/v1/report-metrics/health"
-    healthy_threshold = 2
-    matcher           = "200-399"
+    path                = "/actuator/health"
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    interval            = 30
+    timeout             = 5
   }
 }
+
 
 # -------------------------
 # Listener Rules
@@ -101,7 +108,7 @@ resource "aws_lb_listener_rule" "loan" {
 
   condition {
     path_pattern {
-      values = ["/api/v1/loan-applications/*"]
+      values = ["/api/v1/loan-applications/*", "/api/v1/loan-applications*" ]
     }
   }
 }

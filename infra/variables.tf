@@ -4,7 +4,7 @@ variable "region" {
 }
 
 variable "project" {
-  default     = "crediya"
+  default     = "crediya-terraform"
   description = "Nombre del proyecto"
 }
 

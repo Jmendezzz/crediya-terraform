@@ -12,14 +12,17 @@ variable "cidr_block" {
 variable "public_subnets" {
   description = "Lista de subnets públicas"
   type        = list(string)
+  default     = ["10.0.1.0/24", "10.0.2.0/24"]
 }
 
 variable "private_subnets" {
   description = "Lista de subnets privadas"
   type        = list(string)
+  default     = ["10.0.10.0/24", "10.0.11.0/24"]
 }
 
 variable "azs" {
-  description = "Availability Zones para las subnets"
+  description = "Availability Zones"
   type        = list(string)
+  default     = ["us-east-1a", "us-east-1b"]
 }
