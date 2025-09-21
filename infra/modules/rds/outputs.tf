@@ -1,11 +1,14 @@
-output "auth_db_endpoint" {
-  value = aws_db_instance.auth.endpoint
+output "db_endpoint" {
+  value       = aws_db_instance.this.endpoint
+  description = "Endpoint de la base de datos"
 }
 
-output "loan_db_endpoint" {
-  value = aws_db_instance.loan.endpoint
+output "db_name" {
+  value       = aws_db_instance.this.db_name
+  description = "Nombre de la base de datos"
 }
 
-output "db_subnet_group" {
-  value = aws_db_subnet_group.this.name
+output "db_username" {
+  value       = aws_db_instance.this.username
+  description = "Usuario de la base de datos"
 }

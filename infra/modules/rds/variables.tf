@@ -1,25 +1,34 @@
 variable "project" {
   type        = string
-  description = "Project name prefix"
+  description = "Nombre del proyecto"
+}
+
+variable "service_name" {
+  type        = string
+  description = "Nombre del servicio (ej: auth, loan)"
 }
 
 variable "private_subnets" {
   type        = list(string)
-  description = "Private subnets for the DB subnet group"
+  description = "Subnets privadas para RDS"
 }
 
 variable "rds_sg_id" {
   type        = string
-  description = "Security group for RDS instances"
+  description = "Security group para RDS"
 }
 
 variable "db_username" {
   type        = string
-  description = "Master username for RDS"
+  description = "Usuario administrador de la BD"
 }
 
 variable "db_password" {
   type        = string
-  description = "Master password for RDS"
-  sensitive   = true
+  description = "Password administrador de la BD"
+}
+
+variable "db_name" {
+  type        = string
+  description = "Nombre de la base de datos"
 }
