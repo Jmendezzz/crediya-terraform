@@ -17,3 +17,8 @@ variable "jwt_secret_arn" {
   description = "ARN del secret global de JWT"
   type        = string
 }
+
+variable "execution_role_arn" {
+  description = "ARN del ECS execution role"
+  type        = string
+}

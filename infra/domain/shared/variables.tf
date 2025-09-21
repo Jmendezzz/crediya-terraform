@@ -1,4 +1,4 @@
 variable "project" {
-  description = "Nombre del proyecto para etiquetar recursos"
+  description = "Project name for tagging resources"
   type        = string
 }

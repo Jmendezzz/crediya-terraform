@@ -32,21 +32,25 @@ module "alb" {
 #   jwt_secret_arn  = module.shared.jwt_secret_arn
 # }
 
-
+# ==========================
+# Shared resources
+# ==========================
 module "shared" {
   source  = "./domain/shared"
   project = var.project
 }
 
+# ==========================
+# Auth domain
+# ==========================
 module "auth" {
-  source          = "./domain/auth"
-  project         = var.project
-  private_subnets = module.vpc.private_subnets
-  rds_sg_id       = module.security_groups.rds_sg_id
-  jwt_secret_arn  = module.shared.jwt_secret_arn
+  source             = "./domain/auth"
+  project            = var.project
+  private_subnets    = module.vpc.private_subnets
+  rds_sg_id          = module.security_groups.rds_sg_id
+  jwt_secret_arn     = module.shared.jwt_secret_arn
+  execution_role_arn = module.shared.ecs_execution_role_arn
 }
-
-
 
 
 # module "report_service_secret" {
