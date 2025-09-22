@@ -23,6 +23,12 @@ module "alb" {
   sg_id           = module.security_groups.alb_sg_id
 }
 
+module "ecs_cluster" {
+  source  = "./modules/ecs_cluster"
+  project = var.project
+}
+
+
 
 # module "loan_applications" {
 #   source          = "./domain/loan_applications"
